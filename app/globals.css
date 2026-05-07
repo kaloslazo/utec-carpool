@@ -1,0 +1,183 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Fonts */
+  --font-sans: var(--font-plus-jakarta-sans);
+  --font-heading: var(--font-bitter);
+  --font-mono: var(--font-geist-mono);
+
+  /* Brand colors */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-surface: var(--surface);
+  --color-dark: var(--dark);
+
+  /* shadcn system colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Chart */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Radius: 12px base → cards use rounded-lg */
+  --radius-sm: calc(var(--radius) * 0.67);
+  --radius-md: calc(var(--radius) * 0.67);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 2.5);
+  --radius-4xl: calc(var(--radius) * 3.3);
+}
+
+:root {
+  /* ── UTEC brand ── */
+  --primary: #00bfff;
+  --primary-foreground: #ffffff;
+  --secondary: #fbbc06;
+  --secondary-foreground: #23201f;
+  --surface: #e1eeff;
+  --dark: #23201f;
+
+  /* ── Layout ── */
+  --background: #ffffff;
+  --foreground: #23201f;
+
+  /* ── Cards / Popovers ── */
+  --card: #ffffff;
+  --card-foreground: #23201f;
+  --popover: #ffffff;
+  --popover-foreground: #23201f;
+
+  /* ── Muted / Accent ── */
+  --muted: #e1eeff;
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: #e1eeff;
+  --accent-foreground: #23201f;
+
+  /* ── System ── */
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: #00bfff;
+
+  /* ── Radius: 12px for cards ── */
+  --radius: 0.75rem;
+
+  /* ── Charts (unchanged from shadcn) ── */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* ── Sidebar ── */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #23201f;
+  --sidebar-primary: #00bfff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e1eeff;
+  --sidebar-accent-foreground: #23201f;
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: #00bfff;
+}
+
+.dark {
+  --background: #23201f;
+  --foreground: #ffffff;
+  --card: oklch(0.205 0 0);
+  --card-foreground: #ffffff;
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: #ffffff;
+  --primary: #00bfff;
+  --primary-foreground: #23201f;
+  --secondary: #fbbc06;
+  --secondary-foreground: #23201f;
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: #00bfff;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00bfff;
+  --sidebar-primary-foreground: #23201f;
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: #00bfff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .card-shadow {
+    box-shadow: 0 4px 24px rgba(0, 191, 255, 0.08);
+  }
+  .gradient-utec {
+    background: linear-gradient(135deg, #00bfff, #e1eeff);
+  }
+  .gradient-hero {
+    background: linear-gradient(135deg, #00bfff 0%, #e1eeff 100%);
+  }
+  .pill {
+    border-radius: 9999px;
+  }
+}
