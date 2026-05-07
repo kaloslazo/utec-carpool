@@ -23,7 +23,7 @@ export function DropdownSelect({
   value,
   onChange,
   options,
-  placeholder = "Seleccioná...",
+  placeholder = "Selecciona...",
   className,
   required,
   disabled,

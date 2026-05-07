@@ -173,7 +173,7 @@ export default function BuscarPage() {
       <div>
         <h1 className="font-heading text-xl font-bold text-dark">Buscar viaje</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          Encontrá conductores que van hacia o desde UTEC.
+          Encuentra conductores que van hacia o desde UTEC.
         </p>
       </div>
 
@@ -223,7 +223,7 @@ export default function BuscarPage() {
             {searchQuery ? "Sin resultados para esa búsqueda" : "No hay viajes disponibles"}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            {searchQuery ? "Probá con otro nombre." : "Intentá con otro filtro o volvé más tarde."}
+            {searchQuery ? "Prueba con otro nombre." : "Intenta con otro filtro o vuelve más tarde."}
           </p>
         </div>
       ) : (

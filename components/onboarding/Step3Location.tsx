@@ -41,14 +41,14 @@ export default function Step3Location({ value, onChange, role }: Props) {
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
       <h2 className="mb-1 font-heading text-xl font-bold text-dark">
-        {isPassenger ? "¿Dónde te recogemos?" : "¿Desde dónde salís?"}
+        {isPassenger ? "¿Dónde te recogen?" : "¿Desde dónde sales?"}
       </h2>
       <p className="mb-6 text-sm text-muted-foreground">
         {isPassenger
-          ? "Marcá tu casa o el punto donde preferís que te recojan. Los conductores verán si les queda de camino hacia UTEC Barranco."
+          ? "Indica tu casa o el punto donde prefieres que te recojan. Los conductores verán si les queda de camino hacia UTEC Barranco."
           : isDriver
-            ? "Marcá tu dirección de salida habitual. Así encontramos pasajeros que estén cerca de tu ruta a UTEC Barranco."
-            : "Marcá tu ubicación habitual. Se usa para emparejarte con rutas cercanas a UTEC Barranco."
+            ? "Indica tu dirección de salida habitual. Así encontramos pasajeros que estén cerca de tu ruta a UTEC Barranco."
+            : "Indica tu ubicación habitual. Se usa para emparejarte con rutas cercanas a UTEC Barranco."
         }
       </p>
 
@@ -60,7 +60,7 @@ export default function Step3Location({ value, onChange, role }: Props) {
       {!value.lat && (
         <p className="mt-3 text-xs text-muted-foreground">
           {isPassenger
-            ? "* Necesitamos tu punto de recojo para mostrarte conductores que pasen cerca."
+            ? "* Necesitamos tu punto de recogida para mostrarte conductores que pasen cerca."
             : "* Necesitamos tu dirección para encontrar pasajeros en tu ruta."
           }
         </p>

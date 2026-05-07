@@ -188,7 +188,7 @@ export default async function DashboardPage() {
           >
             <Search className="h-5 w-5" />
             <p className="font-heading text-sm font-bold">Buscar viaje</p>
-            <p className="text-[11px] text-white/70">Encontrá tu ruta</p>
+            <p className="text-[11px] text-white/70">Encuentra tu ruta</p>
           </Link>
         )}
         {isDriver && (
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
           >
             <Plus className="h-5 w-5" />
             <p className="font-heading text-sm font-bold">Publicar viaje</p>
-            <p className="text-[11px] text-white/60">Ofrecé asientos</p>
+            <p className="text-[11px] text-white/60">Ofrece asientos</p>
           </Link>
         )}
         <Link

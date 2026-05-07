@@ -424,7 +424,7 @@ export default function ViajesPage() {
                   </div>
                   <p className="text-sm font-semibold text-dark">Sin solicitudes aún</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Buscá un viaje y enviá tu solicitud.
+                    Busca un viaje y envía tu solicitud.
                   </p>
                   <Link
                     href="/buscar"

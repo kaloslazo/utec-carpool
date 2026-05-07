@@ -73,7 +73,7 @@ export default function VerificacionPage() {
 
     const { plate, carBrand, carModel, carColor, carYear, licenseNumber, radiusKm } = formData;
     if (!plate || !carBrand || !carModel || !carColor || !carYear || !licenseNumber) {
-      showToast("Completá todos los campos obligatorios.", false);
+      showToast("Completa todos los campos obligatorios.", false);
       return;
     }
 
@@ -138,7 +138,7 @@ export default function VerificacionPage() {
           <div>
             <p className="font-heading text-lg font-bold text-dark">Verificación de conductor</p>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              Completá tus datos para poder ofrecer viajes.
+              Completa tus datos para poder ofrecer viajes.
             </p>
           </div>
         </div>

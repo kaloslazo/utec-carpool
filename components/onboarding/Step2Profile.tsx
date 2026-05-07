@@ -61,7 +61,7 @@ export default function Step2Profile({ value, onChange }: Props) {
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
       <h2 className="mb-1 font-heading text-xl font-bold text-dark">
-        Cuéntanos sobre vos
+        Cuéntanos sobre ti
       </h2>
       <p className="mb-8 text-sm text-muted-foreground">
         Esta info la ven los conductores y pasajeros al coordinar un viaje.
@@ -127,7 +127,7 @@ export default function Step2Profile({ value, onChange }: Props) {
               value={value.gender}
               onChange={(v) => set("gender", v as Gender)}
               options={GENDER_OPTIONS}
-              placeholder="Seleccioná..."
+              placeholder="Selecciona..."
               required
             />
           </div>
@@ -157,7 +157,7 @@ export default function Step2Profile({ value, onChange }: Props) {
             value={value.career}
             onChange={(v) => set("career", v)}
             options={CAREER_OPTIONS}
-            placeholder="Seleccioná tu carrera..."
+            placeholder="Selecciona tu carrera..."
             required
           />
         </div>

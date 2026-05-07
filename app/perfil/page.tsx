@@ -124,7 +124,7 @@ export default function PerfilPage() {
 
   async function saveLocation() {
     if (!location.lat || !location.lng) {
-      showToast("Seleccioná una ubicación en el mapa.", false);
+      showToast("Selecciona una ubicación en el mapa.", false);
       return;
     }
     setSaving(true);
@@ -280,7 +280,7 @@ export default function PerfilPage() {
                     value={profile.career}
                     onChange={v => setProfile(p => ({ ...p, career: v }))}
                     options={CAREER_OPTIONS}
-                    placeholder="Seleccioná tu carrera..."
+                    placeholder="Selecciona tu carrera..."
                   />
                 </div>
                 <div>
@@ -316,7 +316,7 @@ export default function PerfilPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-dark">Verificación de conductor</p>
-                <p className="text-xs text-muted-foreground">Completá los datos de tu vehículo y licencia</p>
+                <p className="text-xs text-muted-foreground">Completa los datos de tu vehículo y licencia</p>
               </div>
               <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
             </Link>
@@ -367,7 +367,7 @@ export default function PerfilPage() {
                 <div className="border-b border-border px-5 py-3.5">
                   <p className="font-heading text-sm font-bold text-dark">Agregar horarios → UTEC</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Marcá los días y horarios en que normalmente vas a UTEC.
+                    Marca los días y horarios en que normalmente vas a UTEC.
                   </p>
                 </div>
                 <div className="p-4">

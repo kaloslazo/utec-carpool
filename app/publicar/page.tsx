@@ -134,7 +134,7 @@ export default function PublicarPage() {
       <div>
         <h1 className="font-heading text-xl font-bold text-dark">Publicar viaje</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          Ofrecé asientos para compañeros que van hacia UTEC.
+          Ofrece asientos para compañeros que van hacia UTEC.
         </p>
       </div>
 
@@ -147,7 +147,7 @@ export default function PublicarPage() {
           </div>
           <p className="text-sm font-semibold text-dark">Sin horarios configurados</p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Agregá tus horarios en el perfil para publicar un viaje.
+            Agrega tus horarios en el perfil para publicar un viaje.
           </p>
         </div>
       ) : (
@@ -156,7 +156,7 @@ export default function PublicarPage() {
           {/* Schedule selector */}
           <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
             <div className="border-b border-border px-5 py-3.5">
-              <p className="font-heading text-sm font-bold text-dark">Seleccioná un horario</p>
+              <p className="font-heading text-sm font-bold text-dark">Selecciona un horario</p>
             </div>
             <div className="divide-y divide-border/60">
               {schedules.map(s => {
