@@ -156,7 +156,7 @@ export default function MapPicker({ value, onChange }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Busca tu dirección en Lima…"
-          className="h-10 rounded-xl border-border pl-9 text-sm"
+          className="pl-9"
         />
 
         {/* Dropdown */}

@@ -8,6 +8,8 @@ import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/lib/supabase/types";
 import { emptyGrid, TIME_SLOTS } from "@/components/WeeklyScheduleGrid";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const CAREERS = ["Ingeniería de Sistemas", "Ingeniería Industrial", "Ingeniería Civil", "Administración", "Economía", "Derecho", "Negocios Internacionales", "Arquitectura"];
@@ -259,36 +261,34 @@ export default function PerfilPage() {
               <div className="space-y-4 p-5">
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Nombre completo</label>
-                  <input
+                  <Input
                     type="text"
                     value={profile.full_name}
                     onChange={e => setProfile(p => ({ ...p, full_name: e.target.value }))}
-                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Tu nombre completo"
                   />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Carrera</label>
-                  <select
+                  <Select
                     value={profile.career}
                     onChange={e => setProfile(p => ({ ...p, career: e.target.value }))}
-                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                   >
                     {CAREERS.map(c => (
                       <option key={c} value={c}>{c}</option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Ciclo</label>
-                  <select
+                  <Select
                     value={profile.cycle}
                     onChange={e => setProfile(p => ({ ...p, cycle: parseInt(e.target.value) }))}
-                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                   >
                     {[1,2,3,4,5,6,7,8,9,10].map(n => (
                       <option key={n} value={n}>Ciclo {n}</option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
               </div>
               <div className="border-t border-border px-5 py-4">

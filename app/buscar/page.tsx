@@ -5,6 +5,7 @@ import { Search, MapPin, Clock, Users, Star, ChevronRight, AlertCircle, CheckCir
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { TripDirection } from "@/lib/supabase/types";
+import { Input } from "@/components/ui/input";
 
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
@@ -178,13 +179,13 @@ export default function BuscarPage() {
 
       {/* Search input */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
-        <input
+        <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
+        <Input
           type="text"
           placeholder="Buscar por nombre del conductor..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
-          className="w-full rounded-xl border border-border bg-white py-2.5 pl-10 pr-4 text-sm text-dark shadow-sm placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="pl-11 shadow-sm"
         />
       </div>
 

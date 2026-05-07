@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Camera } from "lucide-react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { CAREERS } from "@/lib/constants";
 import type { Gender } from "@/lib/supabase/types";
@@ -30,8 +31,6 @@ const GENDERS: { value: Gender; label: string }[] = [
   { value: "prefer_not_to_say", label: "Prefiero no decir" },
 ];
 
-const selectClass =
-  "h-10 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm text-dark outline-none focus:border-primary focus:ring-3 focus:ring-primary/20 transition-colors";
 
 export default function Step2Profile({ value, onChange }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -112,7 +111,7 @@ export default function Step2Profile({ value, onChange }: Props) {
             value={value.full_name}
             onChange={(e) => set("full_name", e.target.value)}
             placeholder="Tu nombre como aparece en tu carnet"
-            className="h-10 rounded-lg"
+            className=""
             required
           />
         </div>
@@ -120,10 +119,9 @@ export default function Step2Profile({ value, onChange }: Props) {
         {/* Gender */}
         <div className="space-y-1.5">
           <Label className="text-sm font-medium text-dark">Género</Label>
-          <select
+          <Select
             value={value.gender}
             onChange={(e) => set("gender", e.target.value as Gender)}
-            className={selectClass}
             required
           >
             <option value="">Selecciona…</option>
@@ -132,7 +130,7 @@ export default function Step2Profile({ value, onChange }: Props) {
                 {g.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Age */}
@@ -145,7 +143,7 @@ export default function Step2Profile({ value, onChange }: Props) {
             value={value.age}
             onChange={(e) => set("age", e.target.value)}
             placeholder="Ej: 20"
-            className="h-10 rounded-lg"
+            className=""
             required
           />
         </div>
@@ -153,10 +151,9 @@ export default function Step2Profile({ value, onChange }: Props) {
         {/* Career */}
         <div className="space-y-1.5 sm:col-span-2">
           <Label className="text-sm font-medium text-dark">Carrera</Label>
-          <select
+          <Select
             value={value.career}
             onChange={(e) => set("career", e.target.value)}
-            className={selectClass}
             required
           >
             <option value="">Selecciona tu carrera…</option>
@@ -165,16 +162,15 @@ export default function Step2Profile({ value, onChange }: Props) {
                 {c}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Cycle */}
         <div className="space-y-1.5">
           <Label className="text-sm font-medium text-dark">Ciclo actual</Label>
-          <select
+          <Select
             value={value.cycle}
             onChange={(e) => set("cycle", e.target.value)}
-            className={selectClass}
             required
           >
             <option value="">Ciclo…</option>
@@ -183,7 +179,7 @@ export default function Step2Profile({ value, onChange }: Props) {
                 {c}º ciclo
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
     </motion.div>

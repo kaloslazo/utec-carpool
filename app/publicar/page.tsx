@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Plus, Calendar, Clock, Users, DollarSign, CheckCircle, AlertCircle, ChevronDown } from "lucide-react";
+import { Plus, Calendar, Users, DollarSign, CheckCircle, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
@@ -237,15 +238,15 @@ export default function PublicarPage() {
                   Precio por pasajero (S/)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">S/</span>
-                  <input
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">S/</span>
+                  <Input
                     type="number"
                     min="1"
                     max="50"
                     step="0.5"
                     value={price}
                     onChange={e => setPrice(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-4 text-sm font-semibold text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    className="pl-9 font-semibold"
                   />
                 </div>
               </div>

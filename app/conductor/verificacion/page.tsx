@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Shield, Car, FileText, Settings2, Loader2, CheckCircle, AlertCircle, Upload, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Shield, Car, FileText, Settings2, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { FileUpload } from "@/components/ui/file-upload";
 
 interface FormData {
   plate: string;
@@ -35,7 +37,6 @@ export default function VerificacionPage() {
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
   const [userId, setUserId] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const showToast = useCallback((msg: string, ok: boolean) => {
     setToast({ msg, ok });
@@ -56,18 +57,14 @@ export default function VerificacionPage() {
       setFormData(prev => ({ ...prev, [key]: e.target.value }));
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  function handleFileChange(file: File) {
     setLicenseFile(file);
-    const url = URL.createObjectURL(file);
-    setLicensePreview(url);
+    setLicensePreview(URL.createObjectURL(file));
   }
 
   function clearFile() {
     setLicenseFile(null);
     setLicensePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -128,8 +125,6 @@ export default function VerificacionPage() {
     setSubmitting(false);
   }
 
-  const inputClass =
-    "w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
@@ -169,12 +164,12 @@ export default function VerificacionPage() {
                 <label className="mb-1.5 block text-xs font-semibold text-dark">
                   Placa <span className="text-red-400">*</span>
                 </label>
-                <input
+                <Input
                   type="text"
                   placeholder="ABC-123"
                   value={formData.plate}
                   onChange={handleField("plate")}
-                  className={cn(inputClass, "uppercase")}
+                  className="uppercase"
                   required
                 />
               </div>
@@ -182,14 +177,13 @@ export default function VerificacionPage() {
                 <label className="mb-1.5 block text-xs font-semibold text-dark">
                   Año <span className="text-red-400">*</span>
                 </label>
-                <input
+                <Input
                   type="number"
                   placeholder="2020"
                   min="2000"
                   max={new Date().getFullYear() + 1}
                   value={formData.carYear}
                   onChange={handleField("carYear")}
-                  className={inputClass}
                   required
                 />
               </div>
@@ -199,12 +193,11 @@ export default function VerificacionPage() {
                 <label className="mb-1.5 block text-xs font-semibold text-dark">
                   Marca <span className="text-red-400">*</span>
                 </label>
-                <input
+                <Input
                   type="text"
                   placeholder="Toyota"
                   value={formData.carBrand}
                   onChange={handleField("carBrand")}
-                  className={inputClass}
                   required
                 />
               </div>
@@ -212,12 +205,11 @@ export default function VerificacionPage() {
                 <label className="mb-1.5 block text-xs font-semibold text-dark">
                   Modelo <span className="text-red-400">*</span>
                 </label>
-                <input
+                <Input
                   type="text"
                   placeholder="Corolla"
                   value={formData.carModel}
                   onChange={handleField("carModel")}
-                  className={inputClass}
                   required
                 />
               </div>
@@ -226,12 +218,11 @@ export default function VerificacionPage() {
               <label className="mb-1.5 block text-xs font-semibold text-dark">
                 Color <span className="text-red-400">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="Blanco"
                 value={formData.carColor}
                 onChange={handleField("carColor")}
-                className={inputClass}
                 required
               />
             </div>
@@ -249,12 +240,11 @@ export default function VerificacionPage() {
               <label className="mb-1.5 block text-xs font-semibold text-dark">
                 N° de licencia <span className="text-red-400">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="Q12345678"
                 value={formData.licenseNumber}
                 onChange={handleField("licenseNumber")}
-                className={inputClass}
                 required
               />
             </div>
@@ -263,46 +253,21 @@ export default function VerificacionPage() {
               <label className="mb-1.5 block text-xs font-semibold text-dark">
                 Foto de licencia
               </label>
-              {licensePreview ? (
-                <div className="relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={licensePreview}
-                    alt="Licencia"
-                    className="h-40 w-full rounded-xl object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={clearFile}
-                    className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
+              {uploading ? (
+                <div className="flex h-20 items-center justify-center rounded-xl border border-border bg-white">
+                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 </div>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border bg-surface py-8 transition-colors hover:border-primary/40 hover:bg-primary/5"
-                >
-                  {uploading ? (
-                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  ) : (
-                    <Upload className="h-6 w-6 text-muted-foreground/60" />
-                  )}
-                  <span className="text-xs font-medium text-muted-foreground">
-                    {uploading ? "Subiendo..." : "Tocá para subir foto"}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground/60">JPG, PNG o PDF</span>
-                </button>
+                <FileUpload
+                  accept="image/*,.pdf"
+                  label="Subir foto de licencia"
+                  hint="JPG, PNG o PDF — máx. 5 MB"
+                  preview={licensePreview}
+                  fileName={licenseFile?.name}
+                  onChange={handleFileChange}
+                  onClear={clearFile}
+                />
               )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*,.pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
             </div>
           </div>
         </div>
@@ -341,12 +306,11 @@ export default function VerificacionPage() {
               <label className="mb-1.5 block text-xs font-semibold text-dark">
                 URL de tu QR de Yape
               </label>
-              <input
+              <Input
                 type="url"
                 placeholder="https://..."
                 value={formData.yapeQrUrl}
                 onChange={handleField("yapeQrUrl")}
-                className={inputClass}
               />
               <p className="mt-1 text-[11px] text-muted-foreground">
                 Opcional — los pasajeros usarán esto para pagarte.
