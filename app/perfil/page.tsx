@@ -9,10 +9,16 @@ import { cn } from "@/lib/utils";
 import type { UserRole } from "@/lib/supabase/types";
 import { emptyGrid, TIME_SLOTS } from "@/components/WeeklyScheduleGrid";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { DropdownSelect } from "@/components/ui/dropdown-select";
+
+import { CAREERS } from "@/lib/constants";
 
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
-const CAREERS = ["Ingeniería de Sistemas", "Ingeniería Industrial", "Ingeniería Civil", "Administración", "Economía", "Derecho", "Negocios Internacionales", "Arquitectura"];
+const CAREER_OPTIONS = CAREERS.map((c) => ({ value: c, label: c }));
+const CYCLE_OPTIONS = Array.from({ length: 10 }, (_, i) => ({
+  value: String(i + 1),
+  label: `${i + 1}° ciclo`,
+}));
 
 const WeeklyScheduleGrid = dynamic(() => import("@/components/WeeklyScheduleGrid"), { ssr: false });
 const MapPicker = dynamic(() => import("@/components/MapPicker"), {
@@ -270,25 +276,21 @@ export default function PerfilPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Carrera</label>
-                  <Select
+                  <DropdownSelect
                     value={profile.career}
-                    onChange={e => setProfile(p => ({ ...p, career: e.target.value }))}
-                  >
-                    {CAREERS.map(c => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </Select>
+                    onChange={v => setProfile(p => ({ ...p, career: v }))}
+                    options={CAREER_OPTIONS}
+                    placeholder="Seleccioná tu carrera..."
+                  />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Ciclo</label>
-                  <Select
-                    value={profile.cycle}
-                    onChange={e => setProfile(p => ({ ...p, cycle: parseInt(e.target.value) }))}
-                  >
-                    {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                      <option key={n} value={n}>Ciclo {n}</option>
-                    ))}
-                  </Select>
+                  <DropdownSelect
+                    value={String(profile.cycle)}
+                    onChange={v => setProfile(p => ({ ...p, cycle: parseInt(v) }))}
+                    options={CYCLE_OPTIONS}
+                    placeholder="Ciclo..."
+                  />
                 </div>
               </div>
               <div className="border-t border-border px-5 py-4">

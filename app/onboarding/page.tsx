@@ -240,13 +240,13 @@ export default function OnboardingPage() {
           </AnimatePresence>
 
           {/* Navigation */}
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-10 flex items-center justify-between gap-3">
             <Button
               type="button"
               variant="ghost"
               onClick={back}
               disabled={step === 1}
-              className="gap-1.5 text-sm text-dark"
+              className="h-12 gap-1.5 px-5 text-sm font-semibold text-dark"
             >
               <ArrowLeft className="h-4 w-4" />
               Atrás
@@ -257,7 +257,7 @@ export default function OnboardingPage() {
                 type="button"
                 onClick={next}
                 disabled={!ready}
-                className="gap-1.5 bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-50"
+                className="h-12 gap-2 bg-primary px-8 text-base font-bold text-white hover:bg-primary/90 disabled:opacity-50"
               >
                 Siguiente
                 <ArrowRight className="h-4 w-4" />
@@ -267,7 +267,7 @@ export default function OnboardingPage() {
                 type="button"
                 onClick={handleFinish}
                 disabled={loading}
-                className="gap-1.5 bg-primary px-6 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-60"
+                className="h-12 gap-2 bg-primary px-8 text-base font-bold text-white hover:bg-primary/90 disabled:opacity-60"
               >
                 {loading ? (
                   <>
