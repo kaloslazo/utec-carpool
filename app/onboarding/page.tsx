@@ -226,6 +226,7 @@ export default function OnboardingPage() {
                 key="step3"
                 value={location}
                 onChange={setLocation}
+                role={role}
               />
             )}
             {step === 4 && (

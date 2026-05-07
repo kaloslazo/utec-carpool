@@ -22,9 +22,12 @@ export interface LocationData {
 interface Props {
   value: LocationData;
   onChange: (data: LocationData) => void;
+  role?: string | null;
 }
 
-export default function Step3Location({ value, onChange }: Props) {
+export default function Step3Location({ value, onChange, role }: Props) {
+  const isDriver = role === "driver";
+  const isPassenger = role === "passenger";
   const mapValue =
     value.lat !== null && value.lng !== null
       ? { lat: value.lat, lng: value.lng, address: value.address }
@@ -38,11 +41,15 @@ export default function Step3Location({ value, onChange }: Props) {
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
       <h2 className="mb-1 font-heading text-xl font-bold text-dark">
-        ¿Desde dónde sales?
+        {isPassenger ? "¿Dónde te recogemos?" : "¿Desde dónde salís?"}
       </h2>
       <p className="mb-6 text-sm text-muted-foreground">
-        Marca tu punto de partida habitual. Los conductores calcularán si te
-        queda de camino a UTEC Barranco.
+        {isPassenger
+          ? "Marcá tu casa o el punto donde preferís que te recojan. Los conductores verán si les queda de camino hacia UTEC Barranco."
+          : isDriver
+            ? "Marcá tu dirección de salida habitual. Así encontramos pasajeros que estén cerca de tu ruta a UTEC Barranco."
+            : "Marcá tu ubicación habitual. Se usa para emparejarte con rutas cercanas a UTEC Barranco."
+        }
       </p>
 
       <MapPicker
@@ -52,8 +59,10 @@ export default function Step3Location({ value, onChange }: Props) {
 
       {!value.lat && (
         <p className="mt-3 text-xs text-muted-foreground">
-          * Este paso es necesario para que el algoritmo encuentre conductores
-          cercanos.
+          {isPassenger
+            ? "* Necesitamos tu punto de recojo para mostrarte conductores que pasen cerca."
+            : "* Necesitamos tu dirección para encontrar pasajeros en tu ruta."
+          }
         </p>
       )}
     </motion.div>
