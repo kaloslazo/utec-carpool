@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { User, MapPin, Calendar, Save, Loader2, CheckCircle, AlertCircle, Plus, Trash2 } from "lucide-react";
+import { User, MapPin, Calendar, Save, Loader2, CheckCircle, AlertCircle, Plus, Trash2, Shield, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/lib/supabase/types";
@@ -43,6 +44,12 @@ interface ScheduleRow {
 }
 
 type Tab = "info" | "horarios" | "ubicacion";
+
+function roleBadge(role: UserRole) {
+  if (role === "driver") return { label: "Conductor", classes: "bg-[#0f1c2e] text-white" };
+  if (role === "both") return { label: "Conductor · Pasajero", classes: "bg-primary text-white" };
+  return { label: "Pasajero", classes: "bg-primary/10 text-primary" };
+}
 
 export default function PerfilPage() {
   const [activeTab, setActiveTab] = useState<Tab>("info");
@@ -187,26 +194,36 @@ export default function PerfilPage() {
   ];
 
   const initial = profile.full_name?.[0]?.toUpperCase() ?? "U";
+  const badge = roleBadge(profile.role);
+
+  const selectedSlotCount = toUtecGrid.reduce(
+    (acc, row) => acc + row.filter(Boolean).length,
+    0
+  );
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
 
       {/* Header card */}
-      <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm">
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 ring-2 ring-primary/20">
-          {profile.avatar_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={profile.avatar_url} alt={profile.full_name} className="h-full w-full object-cover" />
-          ) : (
-            <span className="font-heading text-2xl font-bold text-primary">{initial}</span>
-          )}
-        </div>
-        <div>
-          <p className="font-heading text-lg font-bold text-dark">{profile.full_name || "—"}</p>
-          <p className="text-sm text-muted-foreground">{profile.career} · Ciclo {profile.cycle}</p>
-          <span className="mt-1 inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-            {profile.role === "passenger" ? "Pasajero" : profile.role === "driver" ? "Conductor" : "Conductor · Pasajero"}
-          </span>
+      <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+        <div className="bg-gradient-to-br from-primary/5 to-transparent px-5 pb-5 pt-5">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 ring-2 ring-primary/30">
+              {profile.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={profile.avatar_url} alt={profile.full_name} className="h-full w-full object-cover" />
+              ) : (
+                <span className="font-heading text-2xl font-bold text-primary">{initial}</span>
+              )}
+            </div>
+            <div>
+              <p className="font-heading text-lg font-bold text-dark">{profile.full_name || "—"}</p>
+              <p className="text-sm text-muted-foreground">{profile.career} · Ciclo {profile.cycle}</p>
+              <span className={cn("mt-1.5 inline-block rounded-full px-2.5 py-0.5 text-xs font-bold", badge.classes)}>
+                {badge.label}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -263,23 +280,15 @@ export default function PerfilPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-dark">Ciclo</label>
-                  <div className="flex gap-2 flex-wrap">
+                  <select
+                    value={profile.cycle}
+                    onChange={e => setProfile(p => ({ ...p, cycle: parseInt(e.target.value) }))}
+                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  >
                     {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                      <button
-                        key={n}
-                        type="button"
-                        onClick={() => setProfile(p => ({ ...p, cycle: n }))}
-                        className={cn(
-                          "flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold transition-all",
-                          profile.cycle === n
-                            ? "bg-primary text-white shadow-sm"
-                            : "bg-surface text-muted-foreground hover:bg-primary/10"
-                        )}
-                      >
-                        {n}
-                      </button>
+                      <option key={n} value={n}>Ciclo {n}</option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               </div>
               <div className="border-t border-border px-5 py-4">
@@ -295,10 +304,25 @@ export default function PerfilPage() {
             </div>
           )}
 
+          {activeTab === "info" && (profile.role === "driver" || profile.role === "both") && (
+            <Link
+              href="/conductor/verificacion"
+              className="flex items-center gap-4 rounded-2xl bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0f1c2e]/10">
+                <Shield className="h-5 w-5 text-[#0f1c2e]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-dark">Verificación de conductor</p>
+                <p className="text-xs text-muted-foreground">Completá los datos de tu vehículo y licencia</p>
+              </div>
+              <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+            </Link>
+          )}
+
           {/* ── Horarios tab ── */}
           {activeTab === "horarios" && (
             <div className="space-y-4">
-              {/* Existing schedules */}
               {schedules.length > 0 && (
                 <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
                   <div className="border-b border-border px-5 py-3.5">
@@ -337,19 +361,28 @@ export default function PerfilPage() {
                 </div>
               )}
 
-              {/* Add new from grid */}
               <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
                 <div className="border-b border-border px-5 py-3.5">
                   <p className="font-heading text-sm font-bold text-dark">Agregar horarios → UTEC</p>
-                  <p className="text-xs text-muted-foreground">Tocá las celdas para marcar tus salidas.</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Marcá los días y horarios en que normalmente vas a UTEC.
+                  </p>
                 </div>
                 <div className="p-4">
+                  {selectedSlotCount > 0 && (
+                    <div className="mb-3 flex items-center gap-2 rounded-xl bg-primary/8 px-3 py-2">
+                      <div className="h-2 w-2 rounded-full bg-primary" />
+                      <span className="text-xs font-semibold text-primary">
+                        {selectedSlotCount} {selectedSlotCount === 1 ? "horario seleccionado" : "horarios seleccionados"}
+                      </span>
+                    </div>
+                  )}
                   <WeeklyScheduleGrid selected={toUtecGrid} onToggle={handleGridToggle} />
                 </div>
                 <div className="border-t border-border px-5 py-4">
                   <button
                     onClick={saveScheduleFromGrid}
-                    disabled={saving || toUtecGrid.every(row => row.every(v => !v))}
+                    disabled={saving || selectedSlotCount === 0}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white transition-all hover:bg-primary/90 disabled:opacity-60"
                   >
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}

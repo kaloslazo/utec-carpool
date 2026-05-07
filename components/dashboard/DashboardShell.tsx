@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Plus, User, LogOut } from "lucide-react";
+import { Home, Search, Plus, User, LogOut, Car } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import type { UserRole } from "@/lib/supabase/types";
@@ -18,6 +18,7 @@ const NAV_ITEMS = [
   { href: "/dashboard", icon: Home,   label: "Inicio",         roles: ["passenger", "driver", "both"] as UserRole[] },
   { href: "/buscar",    icon: Search, label: "Buscar viaje",   roles: ["passenger", "both"] as UserRole[] },
   { href: "/publicar",  icon: Plus,   label: "Publicar viaje", roles: ["driver", "both"] as UserRole[] },
+  { href: "/viajes",    icon: Car,    label: "Mis viajes",     roles: ["passenger", "driver", "both"] as UserRole[] },
   { href: "/perfil",    icon: User,   label: "Mi perfil",      roles: ["passenger", "driver", "both"] as UserRole[] },
 ];
 
