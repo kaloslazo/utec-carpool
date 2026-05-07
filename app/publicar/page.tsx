@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Plus, Calendar, Users, DollarSign, CheckCircle, AlertCircle } from "lucide-react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
+import { Plus, Calendar, Users, DollarSign, CheckCircle, AlertCircle, Navigation2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+
+const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
@@ -21,6 +24,7 @@ interface PublishedTrip {
   available_seats: number;
   estimated_price_soles: number;
   status: string;
+  allows_detour: boolean;
   created_at: string;
 }
 
@@ -30,9 +34,12 @@ export default function PublicarPage() {
   const [selectedScheduleId, setSelectedScheduleId] = useState<string>("");
   const [seats, setSeats] = useState(2);
   const [price, setPrice] = useState<string>("5");
+  const [allowsDetour, setAllowsDetour] = useState(false);
+  const [driverLocation, setDriverLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
+  const fetchedRef = useRef(false);
 
   const showToast = useCallback((msg: string, ok: boolean) => {
     setToast({ msg, ok });
@@ -54,19 +61,31 @@ export default function PublicarPage() {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: trips } = await (supabase.from("trips") as any)
-      .select("id, schedule_id, available_seats, estimated_price_soles, status, created_at")
+      .select("id, schedule_id, available_seats, estimated_price_soles, status, allows_detour, created_at")
       .eq("driver_id", user.id)
       .in("status", ["open", "full"])
       .order("created_at", { ascending: false })
       .limit(10);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: loc } = await (supabase.from("locations") as any)
+      .select("lat, lng")
+      .eq("user_id", user.id)
+      .eq("is_home", true)
+      .maybeSingle();
+
     setSchedules(sched ?? []);
     setPublishedTrips(trips ?? []);
+    if (loc) setDriverLocation({ lat: loc.lat, lng: loc.lng });
     if (sched?.[0] && !selectedScheduleId) setSelectedScheduleId(sched[0].id);
     setLoading(false);
   }
 
-  useEffect(() => { fetchData(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+    fetchData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handlePublish(e: React.FormEvent) {
     e.preventDefault();
@@ -84,7 +103,6 @@ export default function PublicarPage() {
       return;
     }
 
-    // Check if trip already published for this schedule
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: existing } = await (supabase.from("trips") as any)
       .select("id")
@@ -105,6 +123,7 @@ export default function PublicarPage() {
       schedule_id: selectedScheduleId,
       available_seats: seats,
       estimated_price_soles: priceNum,
+      allows_detour: allowsDetour,
       status: "open",
     });
 
@@ -250,6 +269,41 @@ export default function PublicarPage() {
                   />
                 </div>
               </div>
+
+              {/* Allows detour toggle */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setAllowsDetour(prev => !prev)}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-xl border px-4 py-3 transition-all",
+                    allowsDetour
+                      ? "border-primary/30 bg-primary/5"
+                      : "border-border bg-surface/50 hover:border-primary/20"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <Navigation2 className={cn("h-4 w-4", allowsDetour ? "text-primary" : "text-muted-foreground")} />
+                    <div className="text-left">
+                      <p className={cn("text-xs font-semibold", allowsDetour ? "text-dark" : "text-muted-foreground")}>
+                        Acepto desvíos
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Los pasajeros pueden indicar un punto de bajada
+                      </p>
+                    </div>
+                  </div>
+                  <div className={cn(
+                    "relative h-5 w-9 rounded-full transition-colors",
+                    allowsDetour ? "bg-primary" : "bg-border"
+                  )}>
+                    <div className={cn(
+                      "absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all",
+                      allowsDetour ? "left-4" : "left-0.5"
+                    )} />
+                  </div>
+                </button>
+              </div>
             </div>
 
             <div className="border-t border-border px-5 py-4">
@@ -263,6 +317,25 @@ export default function PublicarPage() {
               </button>
             </div>
           </div>
+
+          {/* Route preview */}
+          {driverLocation && selectedSchedule && (
+            <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+              <div className="border-b border-border px-5 py-3.5">
+                <p className="font-heading text-sm font-bold text-dark">Vista previa de ruta</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  {selectedSchedule.direction === "to_utec" ? "Tu casa → UTEC Barranco" : "UTEC Barranco → Tu casa"}
+                </p>
+              </div>
+              <div className="p-4">
+                <RouteMap
+                  driverLat={driverLocation.lat}
+                  driverLng={driverLocation.lng}
+                  height="220px"
+                />
+              </div>
+            </div>
+          )}
         </form>
       )}
 
@@ -286,13 +359,18 @@ export default function PublicarPage() {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className={cn(
                         "rounded-full px-2 py-0.5 text-[11px] font-semibold",
                         trip.status === "open" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
                       )}>
                         {trip.status === "open" ? "Abierto" : "Lleno"}
                       </span>
+                      {trip.allows_detour && (
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                          Acepta desvíos
+                        </span>
+                      )}
                       <span className="text-xs text-muted-foreground">
                         {trip.available_seats} asiento{trip.available_seats !== 1 ? "s" : ""} · S/ {trip.estimated_price_soles}
                       </span>
