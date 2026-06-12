@@ -23,7 +23,7 @@ export default function StepIndicator({ current }: Props) {
             <div className="flex flex-col items-center gap-1">
               <div
                 className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold transition-colors",
+                  "flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-bold transition-colors sm:h-8 sm:w-8",
                   done
                     ? "border-primary bg-primary text-white"
                     : active
@@ -47,7 +47,7 @@ export default function StepIndicator({ current }: Props) {
             {i < STEPS.length - 1 && (
               <div
                 className={cn(
-                  "mx-2 mb-4 h-[2px] w-10 sm:w-16 transition-colors",
+                  "mx-1 h-[2px] w-5 transition-colors sm:mx-2 sm:mb-4 sm:w-16",
                   done ? "bg-primary" : "bg-border"
                 )}
               />

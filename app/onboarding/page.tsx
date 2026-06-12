@@ -186,7 +186,7 @@ export default function OnboardingPage() {
         <div className="mx-auto flex max-w-2xl items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.png" alt="UTEC Carpool" width={28} height={28} className="rounded-lg" />
-            <span className="font-heading text-base font-bold text-dark">
+            <span className="hidden font-heading text-base font-bold text-dark sm:block">
               UTEC Carpool
             </span>
           </Link>
