@@ -140,10 +140,7 @@ export default function Step2Profile({ value, onChange }: Props) {
               min={16}
               max={35}
               value={value.age}
-              onChange={(e) => {
-                const n = parseInt(e.target.value);
-                if (!e.target.value || (n >= 16 && n <= 35)) set("age", e.target.value);
-              }}
+              onChange={(e) => set("age", e.target.value)}
               placeholder="Ej: 20"
               required
             />

@@ -26,16 +26,19 @@ export const DAYS_OF_WEEK = [
 ] as const;
 
 export const CAREERS = [
-  "Ingeniería Civil",
-  "Ingeniería de Sistemas",
-  "Ingeniería Industrial",
-  "Ingeniería Mecatrónica",
-  "Ingeniería Eléctrica",
-  "Ingeniería Electrónica",
-  "Ingeniería Ambiental",
-  "Ingeniería Química",
-  "Ingeniería de Minas",
   "Administración y Negocios Digitales",
   "Arquitectura",
+  "Bioingeniería",
   "Ciencias de la Computación",
+  "Ingeniería Ambiental",
+  "Ingeniería Civil",
+  "Ingeniería de Minas",
+  "Ingeniería de Petróleo",
+  "Ingeniería de Sistemas",
+  "Ingeniería Eléctrica",
+  "Ingeniería Electrónica",
+  "Ingeniería Industrial",
+  "Ingeniería Mecánica",
+  "Ingeniería Mecatrónica",
+  "Ingeniería Química",
 ] as const;
